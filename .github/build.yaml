@@ -1,0 +1,56 @@
+name: Build single exes
+
+on: [push]
+
+jobs:
+  binary-win:
+
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v1 
+    - uses: actions/setup-dotnet@v1.0.2
+      with:
+        dotnet-version: "3.0.100"
+    - name: build cli
+      run: |
+        mkdir $env:HOME\bin-x86;
+        mkdir $env:HOME\bin-x64;
+        mkdir $env:HOME\bin-x86-untrimmed;
+        mkdir $env:HOME\bin-x64-untrimmed;
+        mkdir $env:HOME\bin-x86-unpacked;
+        mkdir $env:HOME\bin-x64-unpacked;
+        cd ConsoleAppUsingLibgit;
+        dotnet restore;
+        dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true /p:PublishTrimmed=true;
+        dotnet publish -r win-x64 -c Release -o $env:HOME\bin-x64\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true /p:PublishTrimmed=true;
+        dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86-untrimmed\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true;
+        dotnet publish -r win-x64 -c Release -o $env:HOME\bin-x64-untrimmed\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true;
+        dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86-unpacked\ ConsoleAppUsingLibgit.csproj;
+        dotnet publish -r win-x64 -c Release -o $env:HOME\bin-x64-unpacked\ ConsoleAppUsingLibgit.csproj;
+      shell: pwsh
+    - uses: actions/upload-artifact@master
+      with:
+        name: bin-x86
+        path: D:\bin-x86 
+    - uses: actions/upload-artifact@master
+      with:
+        name: bin-x64
+        path: D:\bin-x64 
+    - uses: actions/upload-artifact@master
+      with:
+        name: bin-x86-untrimmed
+        path: D:\bin-x86-untrimmed 
+    - uses: actions/upload-artifact@master
+      with:
+        name: bin-x64-untrimmed
+        path: D:\bin-x64-untrimmed 
+    - uses: actions/upload-artifact@master
+      with:
+        name: bin-x86-unpacked
+        path: D:\bin-x86-unpacked
+    - uses: actions/upload-artifact@master
+      with:
+        name: bin-x64-unpacked
+        path: D:\bin-x64-unpacked
+ 
