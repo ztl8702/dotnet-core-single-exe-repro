@@ -12,7 +12,7 @@ jobs:
     - uses: actions/setup-dotnet@v1.0.2
       with:
         dotnet-version: "3.0.100"
-    - name: build cli
+    - name: build
       run: |
         mkdir $env:HOME\bin-x86;
         mkdir $env:HOME\bin-x64;
@@ -29,6 +29,7 @@ jobs:
         dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86-unpacked\ ConsoleAppUsingLibgit.csproj;
         dotnet publish -r win-x64 -c Release -o $env:HOME\bin-x64-unpacked\ ConsoleAppUsingLibgit.csproj;
       shell: pwsh
+    # Upload
     - uses: actions/upload-artifact@master
       with:
         name: bin-x86
@@ -53,4 +54,34 @@ jobs:
       with:
         name: bin-x64-unpacked
         path: D:\bin-x64-unpacked
- 
+    # Tests
+    - name: Test bin-x86
+      run: |
+        D:\bin-x86\ConsoleAppUsingLibgit.exe
+      shell: pwsh
+      continue-on-error: true
+    - name: Test bin-x64
+      run: |
+        D:\bin-x64\ConsoleAppUsingLibgit.exe
+      shell: pwsh
+      continue-on-error: true
+    - name: Test bin-x86-untrimmed
+      run: |
+        D:\bin-x86-untrimmed\ConsoleAppUsingLibgit.exe
+      shell: pwsh
+      continue-on-error: true
+    - name: Test bin-x64-untrimmed
+      run: |
+        D:\bin-x64-untrimmed\ConsoleAppUsingLibgit.exe
+      shell: pwsh
+      continue-on-error: true
+    - name: Test bin-x86-unpacked
+      run: |
+        D:\bin-x86-unpacked\ConsoleAppUsingLibgit.exe
+      shell: pwsh
+      continue-on-error: true
+    - name: Test bin-x64-unpacked
+      run: |
+        D:\bin-x64-unpacked\ConsoleAppUsingLibgit.exe
+      shell: pwsh
+      continue-on-error: true
