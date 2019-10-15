@@ -22,8 +22,8 @@ jobs:
         mkdir $env:HOME\bin-x64-unpacked;
         cd ConsoleAppUsingLibgit;
         dotnet restore;
-        dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true /p:PublishTrimmed=true /p:CopyOutputSymbolsToPublishDirectory=false;
-        dotnet publish -r win-x64 -c Release -o $env:HOME\bin-x64\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true /p:PublishTrimmed=true /p:CopyOutputSymbolsToPublishDirectory=false;
+        dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeSymbolsInSingleFile=true;
+        dotnet publish -r win-x64 -c Release -o $env:HOME\bin-x64\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true /p:PublishTrimmed=true /p:IncludeSymbolsInSingleFile=true;
         dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86-untrimmed\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true;
         dotnet publish -r win-x64 -c Release -o $env:HOME\bin-x64-untrimmed\ ConsoleAppUsingLibgit.csproj /p:PublishSingleFile=true;
         dotnet publish -r win-x86 -c Release -o $env:HOME\bin-x86-unpacked\ ConsoleAppUsingLibgit.csproj;
